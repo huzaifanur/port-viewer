@@ -1,0 +1,8 @@
+#!/bin/sh
+PORT_VIEWER_ROOT=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
+if [ ! -d "$PORT_VIEWER_ROOT/port_viewer" ]; then
+  PORT_VIEWER_DATA=${XDG_DATA_HOME:-"$HOME/.local/share"}
+  PORT_VIEWER_ROOT="$PORT_VIEWER_DATA/port-viewer"
+fi
+export PYTHONPATH="$PORT_VIEWER_ROOT${PYTHONPATH:+:$PYTHONPATH}"
+exec python3 -m port_viewer "$@"

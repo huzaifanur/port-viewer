@@ -1,0 +1,12 @@
+[Desktop Entry]
+Name=Port Viewer
+GenericName=Network Port Monitor
+Comment=See occupied ports and the processes using them
+Exec=port-viewer
+Icon=io.github.portviewer.PortViewer
+Terminal=false
+Type=Application
+Categories=System;Monitor;
+Keywords=port;socket;network;process;tcp;udp;
+StartupNotify=true
+StartupWMClass=io.github.portviewer.PortViewer
