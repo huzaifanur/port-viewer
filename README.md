@@ -3,9 +3,14 @@
 [![Tests](https://github.com/huzaifanur/port-viewer/actions/workflows/tests.yml/badge.svg)](https://github.com/huzaifanur/port-viewer/actions/workflows/tests.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-Port Viewer is a small native Linux utility for seeing which TCP and UDP ports
-are occupied and which processes own them. It uses GTK 4 and libadwaita for a
-minimal interface that follows the system light or dark theme.
+Port Viewer is a small native Linux app that shows which TCP and UDP ports are
+in use and which process holds each one. It is the readable version of
+`ss -tulpn` for developers and admins who just want to know what is sitting on
+port 8080: search, filter by protocol, and optionally run a one-time admin scan
+to see processes owned by other users. It uses GTK 4 and libadwaita and follows
+the system light or dark theme.
+
+**Install:** `git clone` and `./install.sh` (Ubuntu, see below) · **License:** MIT
 
 ## Features
 
@@ -44,11 +49,25 @@ files only under `~/.local` (or the configured XDG user directories).
 The shield button performs a one-time administrator scan. Authentication is
 optional, but it allows Linux to reveal processes belonging to other users.
 
-## Test
+## Tech stack
+
+Python 3, PyGObject with GTK 4 and libadwaita, and iproute2's `ss` for the
+data. The optional admin scan runs `ss` through `pkexec` (polkit).
+
+## How it works
+
+`port_viewer/scanner.py` runs `ss -H -lntup` without a shell and parses its
+output into port entries (protocol, port, address, state, process, PID).
+`port_viewer/app.py` is the GTK window; scans run off the main thread so the
+interface stays responsive.
+
+## Testing
 
 ```sh
 python3 -m unittest discover -s tests -v
 ```
+
+The parser tests run in GitHub Actions on every push and pull request.
 
 ## Contributing
 
@@ -58,3 +77,5 @@ support for new `ss` output formats.
 ## License
 
 [MIT](LICENSE)
+
+Author: Huzaifa Nur — https://www.huzaifanur.com
